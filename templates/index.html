@@ -47,13 +47,25 @@
 
     <script type="text/javascript">
     function generalTimer(state) {
-      var timeleft = 10;
+      var timeleft = 1500
       // Find button with active class
       active = getActive()
 
+
       // If start begin countdown
       if(state == "start") {
+        // Set timer duration
+        if (active.id = "pomo") {
+            var timeleft = 1500
+        }
+        if (active.id = "short") {
+            var timeleft = 300
+        }
+        if (active.id = "long") {
+            var timeleft = 300
+        }
 
+        // Create new timer
         var timer = new Timer();
         timer.start({countdown: true, startValues: {seconds: timeleft}});
 
@@ -70,13 +82,10 @@
         timer.addEventListener('targetAchieved', function (e) {
             playTone()
         });
-
       }
 
-      //
-      //
-      // }
       // If stop save time left and cancel timer
+      
 
 
       // If resume get saved time and start timer
@@ -139,29 +148,23 @@
 
       var active = document.getElementById("pomo");
       if (active.className == "active") {
-          var time = "25:00"
+          var time = "00:25:00"
           ta.value = time;
           $('#pomo').addClass("disabled")
-          console.log(ta.value)
-          var v = "25"
       }
 
       var active = document.getElementById("long");
       if (active.className == "active") {
-          var time = "10:00"
+          var time = "00:10:00"
           ta.value = time;
           $('#long').addClass("disabled")
-          console.log(ta.value)
-          var v = "10"
       }
 
       var active = document.getElementById("short");
       if (active.className == "active") {
-          var time = "05:00"
+          var time = "00:05:00"
           ta.value = time;
           $('#short').addClass("disabled")
-          console.log(ta.value)
-          var v = "5"
       }
       generalTimer("restart")
     }
@@ -196,7 +199,7 @@
       $('#pomo').removeClass("active")
 
       var ta = document.getElementById("ta");
-      var ti = "05:00";
+      var ti = "00:05:00";
       ta.value = ti;
 
     };
@@ -213,7 +216,7 @@
       $('#pomo').removeClass("active")
 
       var ta = document.getElementById("ta");
-      var ti = "10:00";
+      var ti = "00:10:00";
       ta.value = ti;
     };
     </script>
@@ -222,7 +225,7 @@
     // On init set pomo to active and timer placeholder to 25
      $(document).ready(function() {
        var ta = document.getElementById("ta");
-       ta.value = "25:00"
+       ta.value = "00:25:00"
         $('#stop').addClass("disabled")
         $('#reset').addClass("disabled")
         $('#resume').addClass("disabled")
