@@ -61,10 +61,13 @@ input {
     margin-right: auto;
     text-align: left;
 }
-.alarm{
-    align-items: center;
-    display: flex;
-    justify-content: center;
+
+.button-wrapper {
+  align-items: center;
+  display: flex;
+  justify-content: center; */
+  flex-direction: row;
+
 }
 
 #start, #stop, #reset, #resume, #pomo, #short, #long {
@@ -112,5 +115,34 @@ input {
 }
 #btc, #ether, #iota {
     visibility: hidden;
+}
+
+@media screen and (max-width: 768px) {
+  #ta {
+      border-style: none;
+      resize: none;
+
+      font-family: 'Roboto', sans-serif;
+      font-size: 60px;
+      max-width: 100%
+  }
+  .button-wrapper{
+    flex-direction: column;
+  }
+  .button-wrapper {
+    margin-bottom:1px;
+    margin-top:3px;
+  }
+  .vert-space{
+      height:50px;
+  }
+  .button-group-spacer {
+    height: 30px;
+    display: visible;
+  }
+  .button-spacer {
+    height: 5px;
+    display: visible;
+  }
 
 }

@@ -3,7 +3,6 @@
 
 <head>
 
-
 <!-- meta tag -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -31,84 +30,14 @@
 
     <div class="vert-space"></div>
 
-
-    <script> type="text/javascript"
-    function getActive() {
-      var li = ["pomo", "short", "long"]
-      for (i = 0; i < li.length; i++) {
-          check = document.getElementById(li[i]);
-          if(check.classList.contains("active")) {
-            return check
-        }
-      }
-    }
-    </script>
-
-
-    <script type="text/javascript">
-    function generalTimer(state) {
-      var timeleft = 1500
-      // Find button with active class
-      active = getActive()
-
-
-      // If start begin countdown
-      if(state == "start") {
-        // Set timer duration
-        if (active.id = "pomo") {
-            var timeleft = 1500
-        }
-        if (active.id = "short") {
-            var timeleft = 300
-        }
-        if (active.id = "long") {
-            var timeleft = 300
-        }
-
-        // Create new timer
-        var timer = new Timer();
-        timer.start({countdown: true, startValues: {seconds: timeleft}});
-
-        var ta = document.getElementById("ta");
-        var ti = timer.getTimeValues().toString();
-        ta.value = ti;
-
-        timer.addEventListener('secondsUpdated', function (e) {
-            var ta = document.getElementById("ta");
-            var ti = timer.getTimeValues().toString();
-            ta.value = ti;
-        });
-
-        timer.addEventListener('targetAchieved', function (e) {
-            playTone()
-        });
-      }
-
-      // If stop save time left and cancel timer
-      
-
-
-      // If resume get saved time and start timer
-
-
-      // If reset set the placeholder for active button
-
-
-
-      // playTone()
-      // alarmReset()
-    }
-    </script>
-
     <script type="text/javascript">
     function alarmStart() {
       $('#start').addClass("disabled")
       $('#stop').removeClass("disabled")
+
       $('#pomo').addClass("disabled")
       $('#short').addClass("disabled")
       $('#long').addClass("disabled")
-
-      generalTimer("start")
       }
     </script>
 
@@ -117,8 +46,6 @@
       $('#reset').removeClass("disabled")
       $('#resume').removeClass("disabled")
       $('#stop').addClass("disabled")
-
-      generalTimer("stop")
     }
     </script>
 
@@ -128,8 +55,6 @@
       $('#resume').addClass("disabled")
       $('#reset').addClass("disabled")
       $('#stop').removeClass("disabled")
-
-      generalTimer("resume")
     }
     </script>
 
@@ -166,7 +91,6 @@
           ta.value = time;
           $('#short').addClass("disabled")
       }
-      generalTimer("restart")
     }
     </script>
 
@@ -181,9 +105,8 @@
       $('#short').removeClass("active")
 
       var ta = document.getElementById("ta");
-      var ti = "25:00";
+      var ti = "00:25:00";
       ta.value = ti;
-
     }
 
     </script>
@@ -202,7 +125,7 @@
       var ti = "00:05:00";
       ta.value = ti;
 
-    };
+    }
     </script>
 
     <script type="text/javascript">
@@ -218,7 +141,8 @@
       var ta = document.getElementById("ta");
       var ti = "00:10:00";
       ta.value = ti;
-    };
+
+    }
     </script>
 
     <script>
@@ -240,7 +164,6 @@
     function showCrypto() {
         document.getElementById("ether").style.visibility = "visible";
         document.getElementById("btc").style.visibility = "visible";
-        document.getElementById("iota").style.visibility = "visible";
     };
   </script>
 
@@ -248,22 +171,32 @@
       <textarea readonly="readonly" unselectable="on" id="ta"></textarea>
     </div>
     <br>
-    <div class="alarm">
-      <input type="button" value="Pomodoro" onclick="pomoTime()" id="pomo">
-      <div class="space"></div>
-      <input type="button" value="Short Break" onclick="shortTime()" id="short">
-      <div class="space"></div>
-      <input type="button" value="Long Break" onclick="longTime()" id="long">
+    <div id="selector" class="alarm">
+      <div class="button-wrapper">
+        <input type="button" value="Pomodoro" onclick="pomoTime()" id="pomo">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Short Break" onclick="shortTime()" id="short">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Long Break" onclick="longTime()" id="long">
+      </div>
     </div>
     <br>
+    <div class="button-group-spacer"></div>
     <div class="alarm">
-      <input type="button" value="Start" onclick="alarmStart()" id="start">
-      <div class="space"></div>
-      <input type="button" value="Stop" onclick="alarmStop()" id="stop">
-      <div class="space"></div>
-      <input type="button" value="Resume" onclick="alarmResume()" id="resume">
-      <div class="space"></div>
-      <input type="button" value="Reset" onclick="alarmReset()" id="reset">
+      <div class="button-wrapper">
+        <input type="button" value="Start" onclick="alarmStart()" id="start">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Stop" onclick="alarmStop()" id="stop">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Resume" onclick="alarmResume()" id="resume">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Reset" onclick="alarmReset()" id="reset">
+      </div>
     </div>
     <br>
     <div class="vert-space"></div>
@@ -273,8 +206,79 @@
 
         <div id="ether">ether: 0x2Fd28424005a969Ac799953aF1e10E8A536DF8EE</div>
         <div id="btc">btc: 1PUknv1RUpN1zmVQhFDnLrtmn8hSdU1VUB</div>
-        <div id="iota">iota: JCTAYOOEZVUWH9LZIWPTCKXFKEAPSOJB9WCHSZGFCFJTQICSFLWMJAQTLNJNEWRTNKPXBZKXADZQWKRODVHZBXP9ZC</div>
     </div>
+
+    <script type="text/javascript">
+      // Create new timer
+      var timer = new Timer();
+
+      // If start begin countdown
+      $(document).ready(function(){
+        $('#start').click(function () {
+
+          // Find active button
+          var active = document.querySelectorAll(".active");
+
+          if (active[0].id == "pomo") {
+              timeleft = 1500;
+          }
+
+          if (active[0].id == "long") {
+              timeleft = 600;
+          }
+
+          if (active[0].id == "short") {
+              timeleft = 300;
+          }
+
+          // Start new timer
+          timer.start({countdown: true, startValues: {seconds: timeleft}});
+
+          var ta = document.getElementById("ta");
+          var ti = timer.getTimeValues().toString();
+          ta.value = ti;
+
+          timer.addEventListener('secondsUpdated', function (e) {
+              var ta = document.getElementById("ta");
+              var ti = timer.getTimeValues();
+              ta.value = ti;
+          });
+
+          timer.addEventListener('targetAchieved', function (e) {
+              playTone()
+              alarmReset()
+          });
+        });
+
+        $('#stop').click(function () {
+          timer.pause();
+        });
+
+        $('#resume').click(function () {
+          timer.start()
+
+          var ta = document.getElementById("ta");
+          var ti = timer.getTimeValues().toString();
+          ta.value = ti;
+
+          timer.addEventListener('secondsUpdated', function (e) {
+              var ta = document.getElementById("ta");
+              var ti = timer.getTimeValues().toString();
+              ta.value = ti;
+          });
+
+          timer.addEventListener('targetAchieved', function (e) {
+              playTone()
+              alarmReset()
+          });
+        });
+
+        $('#reset').click(function () {
+          timer.stop();
+        });
+
+    });
+    </script>
 
 </body>
 

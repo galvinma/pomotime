@@ -22,7 +22,6 @@ func main() {
 	r.PathPrefix("/static/").Handler(s)
 
 	r.HandleFunc("/", pageHandler)
-	// r.HandleFunc("/ws", wsHandler)
 
 	// Listen
 	l, err := net.Listen("tcp", "127.0.0.1:5000")
