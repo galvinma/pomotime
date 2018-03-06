@@ -1,11 +1,11 @@
 [Unit]
 Description= pomotime as a service
-ConditionPathExists= /root/go/src/github.com/galvinma/pomotime/
+ConditionPathExists= /root/go/src/github.com/galvinma/pomotime-web/
 
 [Service]
 Type=notify
-WorkingDirectory= /root/go/src/github.com/galvinma/pomotime/
-ExecStart= /root/go/src/github.com/galvinma/pomotime/main
+WorkingDirectory= /root/go/src/github.com/galvinma/pomotime-web/
+ExecStart= /root/go/src/github.com/galvinma/pomotime-web/main
 WatchdogSec=10s
 Restart=on-failure
 
