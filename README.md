@@ -1,5 +1,5 @@
 # pomotime
 
-Javascript pomodoro timer. See [I'm an inline-style link](pomoti.me).
+Javascript pomodoro timer. See [pomoti.me](pomoti.me).
 
 ![Alt text](/static/images/example.png?raw=true "Demo")
