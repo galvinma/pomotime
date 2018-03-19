@@ -52,14 +52,14 @@ input {
 }
 
 .text-container{
-    align-items: left;
-    justify-content: left;
+    align-items: center;
+    justify-content: center;
     display: flex;
     font-size: 14px;
     max-width: 50%;
     margin-left: auto;
     margin-right: auto;
-    text-align: left;
+    text-align: center;
 }
 
 .button-wrapper {
@@ -69,8 +69,11 @@ input {
   flex-direction: row;
 
 }
+#hideoptions {
+    display: none;
+}
 
-#start, #stop, #reset, #resume, #pomo, #short, #long, #duration, #contact, #tone, #volume {
+#start, #stop, #reset, #resume, #pomo, #short, #long, #duration, #tone, #volume {
     border-radius: 25px;
     outline: none;
     align-items: center;
@@ -103,7 +106,7 @@ input {
     text-align: center;
     padding-bottom: 25px;
 }
-.donate-button, .contact-button {
+.options-button, .donate-button {
     background:none!important;
     color:inherit;
     border:none;
@@ -114,10 +117,10 @@ input {
     cursor: pointer;
 }
 
-.contact-button {
+.options-button {
     text-decoration: none;
 }
-#btc, #ether, #iota {
+#btc, #ether, #config {
     visibility: hidden;
 }
 
@@ -147,6 +150,9 @@ input {
   .button-spacer {
     height: 5px;
     display: visible;
+  }
+  #start, #stop, #reset, #resume, #pomo, #short, #long, #duration, #tone, #volume {
+      font-size: 18px;
   }
 
 }

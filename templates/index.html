@@ -171,8 +171,18 @@
     </script>
 
     <script>
-    function showContact() {
-        document.getElementById("contact").style.visibility = "visible";
+    function showOptions() {
+        document.getElementById("config").style.visibility = "visible";
+        $("#showoptions").hide();
+        $("#hideoptions").show();
+    };
+    </script>
+
+    <script>
+    function hideOptions() {
+        document.getElementById("config").style.visibility = "hidden";
+        $("#showoptions").show();
+        $("#hideoptions").hide();
     };
     </script>
 
@@ -210,7 +220,8 @@
     <br>
     <br>
     <div class="button-group-spacer"></div>
-    <div class="alarm">
+
+    <div id="config">
       <div class="button-wrapper">
         <input type="button" value="Duration" onclick="cfgDuration()" id="duration">
         <div class="space"></div>
@@ -219,15 +230,20 @@
         <div class="space"></div>
         <div class="button-spacer"></div>
         <input type="button" value="Tone" onclick="cfgTone()" id="tone">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="button" value="Contact" onclick="cfgContact()" id="contact">
       </div>
     </div>
     <br>
     <div id="options-wrapper" class="vert-space"></div>
     <br>
     <div class="footer">
+        <!-- <p><button onclick="showContact()" class="contact-button">Contact</button></p> -->
+        <p>
+        <button onclick="showOptions()" id="showoptions" class="options-button">Show Options</button>
+        <button onclick="hideOptions()" id="hideoptions" class="options-button">Hide Options</button>
+        </p>
+
+        <div id="contact">pomotime@protonmail.com</div>
+
         <p>If you like pomoti.me, please consider <button onclick="showCrypto()" class="donate-button">donating</button>.</p>
 
         <div id="ether">ether: 0x2Fd28424005a969Ac799953aF1e10E8A536DF8EE</div>
@@ -236,16 +252,28 @@
     </div>
 
     <script type ="text/javascript">
-    var volume = 1.0
-    var tone = new Audio('static/audio/tone.mp3');
-    var metronome = new Audio('static/audio/metronome.mp3');
+    // 1.0 = 100%
+    var volume = 1.0;
+    var audio_selection = "simple";
+    var simple = new Audio('static/audio/tone.mp3');
+    var metronome = new Audio('static/audio/metronome.wav');
     var beep = new Audio('static/audio/beep.mp3');
 
     function playTone() {
-        if (audio_selection == "gong") {
-          tone.volume = volume;
-          tone.play();
-          console.log("Playing gong sound.")
+        if (audio_selection == "simple") {
+          simple.volume = volume;
+          simple.play();
+          console.log("Playing simple sound.")
+        }
+        if (audio_selection == "metronome") {
+          metronome.volume = volume;
+          metronome.play();
+          console.log("Playing metronome sound.")
+        }
+        if (audio_selection == "beep") {
+          beep.volume = volume;
+          beep.play();
+          console.log("Playing beep sound.")
         }
     };
     </script>
