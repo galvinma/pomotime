@@ -187,7 +187,11 @@
     </script>
 
     <div class="time-container">
-      <textarea readonly="readonly" unselectable="on" id="ta"></textarea>
+      <div id="ta">
+        <span class="minutes" style="float: left">0</span>
+        <span class="timespace" style="float: left">:</span>
+        <span class="seconds" style="float: left">0</span>
+      </div>
     </div>
     <br>
     <div id="selector" class="alarm">
@@ -306,12 +310,16 @@
 
           var ta = document.getElementById("ta");
           var ti = timer.getTimeValues().toString();
+          // $('#ta .minutes').html(timer.getTimeValues().minutes);
+          // $('#ta .seconds').html(timer.getTimeValues().seconds);
           ta.value = ti;
 
           timer.addEventListener('secondsUpdated', function (e) {
               var ta = document.getElementById("ta");
-              var ti = timer.getTimeValues();
-              ta.value = ti;
+              // var ti = timer.getTimeValues();
+              $('#ta .minutes').html(timer.getTimeValues().minutes);
+              $('#ta .seconds').html(timer.getTimeValues().seconds);
+              // ta.value = ti;
           });
 
           timer.addEventListener('targetAchieved', function (e) {
