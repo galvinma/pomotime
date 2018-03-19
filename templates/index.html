@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Roboto|Cormorant+Garamond" rel="stylesheet">
 
 <!-- css -->
-<link rel="stylesheet" href="/static/css/theme.css?v=1.0.0.0">
+<link rel="stylesheet" href="/static/css/theme.css?v=1.0.0.1">
 
 <!-- js -->
 <script type="text/javascript" src="/static/js/HackTimer.min.js"></script>
@@ -168,7 +168,13 @@
         document.getElementById("ether").style.visibility = "visible";
         document.getElementById("btc").style.visibility = "visible";
     };
-  </script>
+    </script>
+
+    <script>
+    function showContact() {
+        document.getElementById("contact").style.visibility = "visible";
+    };
+    </script>
 
     <div class="time-container">
       <textarea readonly="readonly" unselectable="on" id="ta"></textarea>
@@ -202,20 +208,45 @@
       </div>
     </div>
     <br>
-    <div class="vert-space"></div>
+    <br>
+    <div class="button-group-spacer"></div>
+    <div class="alarm">
+      <div class="button-wrapper">
+        <input type="button" value="Duration" onclick="cfgDuration()" id="duration">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Volume" onclick="cfgVolume()" id="volume">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Tone" onclick="cfgTone()" id="tone">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Contact" onclick="cfgContact()" id="contact">
+      </div>
+    </div>
+    <br>
+    <div id="options-wrapper" class="vert-space"></div>
     <br>
     <div class="footer">
         <p>If you like pomoti.me, please consider <button onclick="showCrypto()" class="donate-button">donating</button>.</p>
 
         <div id="ether">ether: 0x2Fd28424005a969Ac799953aF1e10E8A536DF8EE</div>
         <div id="btc">btc: 1PUknv1RUpN1zmVQhFDnLrtmn8hSdU1VUB</div>
+
     </div>
 
     <script type ="text/javascript">
-    var audio = new Audio('static/audio/tone.mp3');
+    var volume = 1.0
+    var tone = new Audio('static/audio/tone.mp3');
+    var metronome = new Audio('static/audio/metronome.mp3');
+    var beep = new Audio('static/audio/beep.mp3');
+
     function playTone() {
-        audio.play();
-        console.log("playingtone")
+        if (audio_selection == "gong") {
+          tone.volume = volume;
+          tone.play();
+          console.log("Playing gong sound.")
+        }
     };
     </script>
 
