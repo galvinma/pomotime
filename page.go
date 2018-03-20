@@ -39,4 +39,5 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
   renderTemplate(w, htmlfile, folderpath, page)
+	
 }
