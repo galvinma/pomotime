@@ -65,10 +65,16 @@ input {
 .button-wrapper {
   align-items: center;
   display: flex;
-  justify-content: center; */
+  justify-content: center;
   flex-direction: row;
-
 }
+.duration-wrapper, .tone-wrapper, .volume-wrapper{
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
 #hideoptions {
     display: none;
 }
@@ -120,7 +126,11 @@ input {
 .options-button {
     text-decoration: none;
 }
-#btc, #ether, #config {
+#cfg_duration {
+    height: 100px;
+}
+
+#btc, #ether, #config, #cfg_duration {
     visibility: hidden;
 }
 

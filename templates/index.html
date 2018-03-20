@@ -179,6 +179,46 @@
     }
     </script>
 
+    <script type="text/javascript">
+    function cfgDuration() {
+      $('#duration').addClass("disabled")
+      $('#volume').removeClass("disabled")
+      $('#tone').removeClass("disabled")
+
+      $("#duration-wrapper").show();
+      $("#volume-wrapper").hide();
+      $("#tone-wrapper").hide();
+
+    }
+    </script>
+
+    <script type="text/javascript">
+    function cfgVolume() {
+      $('#duration').removeClass("disabled")
+      $('#volume').addClass("disabled")
+      $('#tone').removeClass("disabled")
+
+      $("#duration-wrapper").hide();
+      $("#volume-wrapper").show();
+      $("#tone-wrapper").hide();
+
+    }
+    </script>
+
+    <script type="text/javascript">
+    function cfgTone() {
+      $('#duration').removeClass("disabled")
+      $('#volume').removeClass("disabled")
+      $('#tone').addClass("disabled")
+
+      $("#duration-wrapper").hide();
+      $("#volume-wrapper").hide();
+      $("#tone-wrapper").show();
+
+    }
+    </script>
+
+
     <script>
      $(document).ready(function() {
         alarmReset()
@@ -196,16 +236,23 @@
     <script>
     function showOptions() {
         document.getElementById("config").style.visibility = "visible";
+        document.getElementById("cfg_duration").style.visibility = "visible";
         $("#showoptions").hide();
         $("#hideoptions").show();
+        $("#config").show();
+
+        cfgDuration()
+
     };
     </script>
 
     <script>
     function hideOptions() {
         document.getElementById("config").style.visibility = "hidden";
+        document.getElementById("cfg_duration").style.visibility = "hidden";
         $("#showoptions").show();
         $("#hideoptions").hide();
+
     };
     </script>
 
@@ -260,10 +307,52 @@
       </div>
     </div>
     <br>
-    <div id="options-wrapper" class="vert-space"></div>
+    <div id="cfg_duration">
+      <div class="duration-wrapper" id="duration-wrapper">
+        <input type="text" value="Pomodoro" id="pomodoro_time_set">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="text" value="Short" id="short_time_set">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="text" value="Long" id="long_time_set">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Submit" onclick="cfgTone()" id="duration_submit">
+      </div>
+      <div class="tone-wrapper" id="tone-wrapper">
+        <input type="text" value="Simple" id="simple_tone_set">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="text" value="Metronome" id="metronome_tone_set">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="text" value="Gong" id="gong_tone_set">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Submit" onclick="cfgTone()" id="tonesubmit">
+      </div>
+      <div class="volume-wrapper" id="volume-wrapper">
+        <input type="text" value="0" id="volume_set_0">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="text" value="25" id="volume_set_25">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="text" value="50" id="volume_set_50">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="text" value="75" id="volume_set_75">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="text" value="100" id="volume_set_100">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+      </div>
+    </div>
+    <!-- <div id="options-wrapper" class="vert-space"></div> -->
     <br>
     <div class="footer">
-        <!-- <p><button onclick="showContact()" class="contact-button">Contact</button></p> -->
         <p>
         <button onclick="showOptions()" id="showoptions" class="options-button">Show Options</button>
         <button onclick="hideOptions()" id="hideoptions" class="options-button">Hide Options</button>
