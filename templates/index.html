@@ -98,22 +98,28 @@
 
       var active = document.getElementById("pomo");
       if (active.className == "active") {
-          $('#ta .minutes').value(convertTime(pomotime)[0]);
-          $('#ta .seconds').value(convertTime(pomotime)[1]);
+          var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
+          min.innerHTML = zeroPad(convertTime(pomotime)[0], 2);
+          var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
+          sec.innerHTML = zeroPad(convertTime(pomotime)[1], 2);
           $('#pomo').addClass("disabled")
       }
 
       var active = document.getElementById("long");
       if (active.className == "active") {
-          $('#ta .minutes').value(convertTime(longtime)[0]);
-          $('#ta .seconds').value(convertTime(longtime)[1]);
+          var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
+          min.innerHTML = zeroPad(convertTime(longtime)[0], 2);
+          var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
+          sec.innerHTML = zeroPad(convertTime(longtime)[1], 2);
           $('#long').addClass("disabled")
       }
 
       var active = document.getElementById("short");
       if (active.className == "active") {
-          $('#ta .minutes').value(convertTime(shorttime)[0]);
-          $('#ta .seconds').value(convertTime(shorttime)[1]);
+          var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
+          min.innerHTML = zeroPad(convertTime(shorttime)[0], 2);
+          var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
+          sec.innerHTML = zeroPad(convertTime(shorttime)[1], 2);
           $('#short').addClass("disabled")
       }
     }
@@ -147,8 +153,10 @@
       $('#long').removeClass("active")
       $('#pomo').removeClass("active")
 
-      $('#ta .minutes').value(convertTime(shorttime)[0]);
-      $('#ta .seconds').value(convertTime(shorttime)[1]);
+      var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
+      min.innerHTML = zeroPad(convertTime(shorttime)[0], 2);
+      var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
+      sec.innerHTML = zeroPad(convertTime(shorttime)[1], 2);
 
     }
     </script>
@@ -163,14 +171,17 @@
       $('#short').removeClass("active")
       $('#pomo').removeClass("active")
 
-      $('#ta .minutes').value(convertTime(longtime)[0]);
-      $('#ta .seconds').value(convertTime(longtime)[1]);
+      var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
+      min.innerHTML = zeroPad(convertTime(longtime)[0], 2);
+      var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
+      sec.innerHTML = zeroPad(convertTime(longtime)[1], 2);
 
     }
     </script>
 
     <script>
      $(document).ready(function() {
+        alarmReset()
         pomoTime()
       });
     </script>
@@ -321,8 +332,10 @@
           timer.start({countdown: true, startValues: {seconds: timeleft}});
 
           timer.addEventListener('secondsUpdated', function (e) {
-              $('#ta .minutes').html(timer.getTimeValues().minutes);
-              $('#ta .seconds').html(timer.getTimeValues().seconds);
+              var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
+              min.innerHTML = zeroPad(timer.getTimeValues().minutes, 2);
+              var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
+              sec.innerHTML = zeroPad(timer.getTimeValues().seconds, 2);
           });
 
           timer.addEventListener('targetAchieved', function (e) {
@@ -339,8 +352,10 @@
           timer.start();
 
           timer.addEventListener('secondsUpdated', function (e) {
-              $('#ta .minutes').html(timer.getTimeValues().minutes);
-              $('#ta .seconds').html(timer.getTimeValues().seconds);
+              var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
+              min.innerHTML = zeroPad(timer.getTimeValues().minutes, 2);
+              var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
+              sec.innerHTML = zeroPad(timer.getTimeValues().seconds, 2);
           });
 
           timer.addEventListener('targetAchieved', function (e) {
