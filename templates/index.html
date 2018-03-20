@@ -33,6 +33,28 @@
 
     <div class="vert-space"></div>
 
+    <script>
+    // return an inputted time in min/sec
+    function convertTime(duration) {
+        var min = Math.floor(duration / 60);
+        var sec = duration - min * 60;
+        return [min,sec];
+    };
+    // pad results for display
+    function zeroPad(num, places) {
+      var zero = places - num.toString().length + 1;
+      return Array(+(zero > 0 && zero)).join("0") + num;
+    }
+    </script>
+
+
+    <script>
+    // Global time settings
+    var pomotime = 1500;
+    var longtime = 600;
+    var shorttime = 300;
+    </script>
+
     <script type="text/javascript">
     function alarmStart() {
       $('#start').addClass("disabled")
@@ -76,22 +98,22 @@
 
       var active = document.getElementById("pomo");
       if (active.className == "active") {
-          var time = "00:25:00"
-          ta.value = time;
+          $('#ta .minutes').value(convertTime(pomotime)[0]);
+          $('#ta .seconds').value(convertTime(pomotime)[1]);
           $('#pomo').addClass("disabled")
       }
 
       var active = document.getElementById("long");
       if (active.className == "active") {
-          var time = "00:10:00"
-          ta.value = time;
+          $('#ta .minutes').value(convertTime(longtime)[0]);
+          $('#ta .seconds').value(convertTime(longtime)[1]);
           $('#long').addClass("disabled")
       }
 
       var active = document.getElementById("short");
       if (active.className == "active") {
-          var time = "00:05:00"
-          ta.value = time;
+          $('#ta .minutes').value(convertTime(shorttime)[0]);
+          $('#ta .seconds').value(convertTime(shorttime)[1]);
           $('#short').addClass("disabled")
       }
     }
@@ -107,9 +129,10 @@
       $('#long').removeClass("active")
       $('#short').removeClass("active")
 
-      var ta = document.getElementById("ta");
-      var ti = "00:25:00";
-      ta.value = ti;
+      var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
+      min.innerHTML = zeroPad(convertTime(pomotime)[0], 2);
+      var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
+      sec.innerHTML = zeroPad(convertTime(pomotime)[1], 2);
     }
 
     </script>
@@ -124,9 +147,8 @@
       $('#long').removeClass("active")
       $('#pomo').removeClass("active")
 
-      var ta = document.getElementById("ta");
-      var ti = "00:05:00";
-      ta.value = ti;
+      $('#ta .minutes').value(convertTime(shorttime)[0]);
+      $('#ta .seconds').value(convertTime(shorttime)[1]);
 
     }
     </script>
@@ -141,25 +163,15 @@
       $('#short').removeClass("active")
       $('#pomo').removeClass("active")
 
-      var ta = document.getElementById("ta");
-      var ti = "00:10:00";
-      ta.value = ti;
+      $('#ta .minutes').value(convertTime(longtime)[0]);
+      $('#ta .seconds').value(convertTime(longtime)[1]);
 
     }
     </script>
 
     <script>
-    // On init set pomo to active and timer placeholder to 25
      $(document).ready(function() {
-       var ta = document.getElementById("ta");
-       ta.value = "00:25:00"
-        $('#stop').addClass("disabled")
-        $('#reset').addClass("disabled")
-        $('#resume').addClass("disabled")
-        $('#pomo').addClass("disabled")
-        $('#pomo').addClass("active")
-        $('#short').removeClass("disabled")
-        $('#long').removeClass("disabled")
+        pomoTime()
       });
     </script>
 
@@ -188,9 +200,9 @@
 
     <div class="time-container">
       <div id="ta">
-        <span class="minutes" style="float: left">0</span>
+        <span class="minutes" style="float: left"></span>
         <span class="timespace" style="float: left">:</span>
-        <span class="seconds" style="float: left">0</span>
+        <span class="seconds" style="float: left"></span>
       </div>
     </div>
     <br>
@@ -294,32 +306,23 @@
           var active = document.querySelectorAll(".active");
 
           if (active[0].id == "pomo") {
-              timeleft = 1500;
+              timeleft = pomotime;
           }
 
           if (active[0].id == "long") {
-              timeleft = 600;
+              timeleft = longtime;
           }
 
           if (active[0].id == "short") {
-              timeleft = 300;
+              timeleft = shorttime;
           }
 
           // Start new timer
           timer.start({countdown: true, startValues: {seconds: timeleft}});
 
-          var ta = document.getElementById("ta");
-          var ti = timer.getTimeValues().toString();
-          // $('#ta .minutes').html(timer.getTimeValues().minutes);
-          // $('#ta .seconds').html(timer.getTimeValues().seconds);
-          ta.value = ti;
-
           timer.addEventListener('secondsUpdated', function (e) {
-              var ta = document.getElementById("ta");
-              // var ti = timer.getTimeValues();
               $('#ta .minutes').html(timer.getTimeValues().minutes);
               $('#ta .seconds').html(timer.getTimeValues().seconds);
-              // ta.value = ti;
           });
 
           timer.addEventListener('targetAchieved', function (e) {
@@ -333,16 +336,11 @@
         });
 
         $('#resume').click(function () {
-          timer.start()
-
-          var ta = document.getElementById("ta");
-          var ti = timer.getTimeValues().toString();
-          ta.value = ti;
+          timer.start();
 
           timer.addEventListener('secondsUpdated', function (e) {
-              var ta = document.getElementById("ta");
-              var ti = timer.getTimeValues().toString();
-              ta.value = ti;
+              $('#ta .minutes').html(timer.getTimeValues().minutes);
+              $('#ta .seconds').html(timer.getTimeValues().seconds);
           });
 
           timer.addEventListener('targetAchieved', function (e) {
