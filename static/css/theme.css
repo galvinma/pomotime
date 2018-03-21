@@ -79,6 +79,20 @@ input {
     display: none;
 }
 
+#pomodoro_time_set, #short_time_set, #long_time_set {
+    border-radius: 25px;
+    outline: none;
+    display: block;
+    border: 2px solid #000000;
+    color: Black;
+    font-size: 14px;
+    font-weight: normal;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    width: 150px;
+}
+
 #start, #stop, #reset, #resume, #pomo, #short, #long, #duration, #tone, #volume,
     #simple_tone_set, #metronome_tone_set, #beep_tone_set,
     #vol0, #vol25, #vol50, #vol75, #vol100 {
