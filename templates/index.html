@@ -123,72 +123,6 @@
     </div>
 
     <script>
-    // If start begin countdown
-    $(document).ready(function(){
-      alarmReset()
-      pomoTime()
-      // Create new timer
-      var timer = new Timer();
-      $('#start').click(function () {
-
-        // Find active button
-        var active = document.querySelectorAll(".active");
-
-        if (active[0].id == "pomo") {
-            timeleft = pomotime;
-        }
-
-        if (active[0].id == "long") {
-            timeleft = longtime;
-        }
-
-        if (active[0].id == "short") {
-            timeleft = shorttime;
-        }
-
-        // Start new timer
-
-        timer.start({countdown: true, precision: 'seconds', startValues: {seconds: Number(timeleft)}});
-
-        timer.addEventListener('secondsUpdated', function (e) {
-            min = document.getElementById("ta").getElementsByClassName("minutes")[0];
-            min.innerHTML = zeroPad(timer.getTimeValues().minutes, 2);
-
-            sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
-            sec.innerHTML = zeroPad(timer.getTimeValues().seconds, 2);
-        });
-
-        timer.addEventListener('targetAchieved', function (e) {
-            playTone()
-            alarmReset()
-        });
-      });
-
-      $('#stop').click(function () {
-        timer.pause();
-      });
-
-      $('#resume').click(function () {
-        timer.start();
-
-        timer.addEventListener('secondsUpdated', function (e) {
-            var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
-            min.innerHTML = zeroPad(timer.getTimeValues().minutes, 2);
-            var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
-            sec.innerHTML = zeroPad(timer.getTimeValues().seconds, 2);
-        });
-
-        timer.addEventListener('targetAchieved', function (e) {
-            playTone()
-            alarmReset()
-        });
-      });
-
-      $('#reset').click(function () {
-        timer.stop();
-      });
-
-    });
 
     // return an inputted time in min/sec
     function convertTime(duration) {
@@ -209,6 +143,9 @@
       $('#pomo').addClass("disabled")
       $('#short').addClass("disabled")
       $('#long').addClass("disabled")
+
+      hideOptions()
+      $("#showoptions").addClass("disabled")
       }
 
     function alarmStop() {
@@ -232,6 +169,8 @@
       $('#pomo').removeClass("disabled")
       $('#short').removeClass("disabled")
       $('#long').removeClass("disabled")
+
+      $("#showoptions").removeClass("disabled")
 
       var ta = document.getElementById("ta");
 
@@ -381,36 +320,70 @@
     // Set Audio
     function simpleTone() {
         audio_selection = "simple";
+        $('#simple_tone_set').addClass("disabled")
+        $('#metronome_tone_set').removeClass("disabled")
+        $('#beep_tone_set').removeClass("disabled")
         playTone()
       }
     function beepTone() {
         audio_selection = "beep";
+        $('#simple_tone_set').removeClass("disabled")
+        $('#metronome_tone_set').removeClass("disabled")
+        $('#beep_tone_set').addClass("disabled")
         playTone()
       }
     function metronomeTone() {
         audio_selection = "metronome";
+        $('#simple_tone_set').removeClass("disabled")
+        $('#metronome_tone_set').addClass("disabled")
+        $('#beep_tone_set').removeClass("disabled")
         playTone()
       }
 
     // Set Volume
     function volume0() {
         volume = 0.0;
+        $('#vol0').addClass("disabled")
+        $('#vol25').removeClass("disabled")
+        $('#vol50').removeClass("disabled")
+        $('#vol75').removeClass("disabled")
+        $('#vol100').removeClass("disabled")
         playTone()
       }
     function volume25() {
         volume = 0.3;
+        $('#vol0').removeClass("disabled")
+        $('#vol25').addClass("disabled")
+        $('#vol50').removeClass("disabled")
+        $('#vol75').removeClass("disabled")
+        $('#vol100').removeClass("disabled")
         playTone()
       }
     function volume50() {
         volume = 0.5;
+        $('#vol0').removeClass("disabled")
+        $('#vol25').removeClass("disabled")
+        $('#vol50').addClass("disabled")
+        $('#vol75').removeClass("disabled")
+        $('#vol100').removeClass("disabled")
         playTone()
       }
     function volume75() {
         volume = 0.7;
+        $('#vol0').removeClass("disabled")
+        $('#vol25').removeClass("disabled")
+        $('#vol50').removeClass("disabled")
+        $('#vol75').addClass("disabled")
+        $('#vol100').removeClass("disabled")
         playTone()
       }
     function volume100() {
         volume = 1.0;
+        $('#vol0').removeClass("disabled")
+        $('#vol25').removeClass("disabled")
+        $('#vol50').removeClass("disabled")
+        $('#vol75').removeClass("disabled")
+        $('#vol100').addClass("disabled")
         playTone()
       }
 
@@ -438,21 +411,95 @@
 
     function playTone() {
         if (audio_selection == "simple") {
+          simple.load();
           simple.volume = volume;
           simple.play();
           console.log("Playing simple sound.")
         }
         if (audio_selection == "metronome") {
+          metronome.load();
           metronome.volume = volume;
           metronome.play();
           console.log("Playing metronome sound.")
         }
         if (audio_selection == "beep") {
+          beep.load();
           beep.volume = volume;
           beep.play();
           console.log("Playing beep sound.")
         }
     };
+
+    // If start begin countdown
+    $(document).ready(function(){
+      alarmReset()
+      pomoTime()
+      $('#simple_tone_set').addClass("disabled")
+      $('#vol100').addClass("disabled")
+
+      // Create new timer
+      var timer = new Timer();
+      $('#start').click(function () {
+
+        // Find active button
+        var active = document.querySelectorAll(".active");
+
+        if (active[0].id == "pomo") {
+            timeleft = pomotime;
+        }
+
+        if (active[0].id == "long") {
+            timeleft = longtime;
+        }
+
+        if (active[0].id == "short") {
+            timeleft = shorttime;
+        }
+
+        // Start new timer
+
+        timer.start({countdown: true, precision: 'seconds', startValues: {seconds: Number(timeleft)}});
+
+        timer.addEventListener('secondsUpdated', function (e) {
+            min = document.getElementById("ta").getElementsByClassName("minutes")[0];
+            min.innerHTML = zeroPad(timer.getTimeValues().minutes, 2);
+
+            sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
+            sec.innerHTML = zeroPad(timer.getTimeValues().seconds, 2);
+        });
+
+        timer.addEventListener('targetAchieved', function (e) {
+            playTone()
+            alarmReset()
+        });
+      });
+
+      $('#stop').click(function () {
+        timer.pause();
+      });
+
+      $('#resume').click(function () {
+        timer.start();
+
+        timer.addEventListener('secondsUpdated', function (e) {
+            var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
+            min.innerHTML = zeroPad(timer.getTimeValues().minutes, 2);
+            var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
+            sec.innerHTML = zeroPad(timer.getTimeValues().seconds, 2);
+        });
+
+        timer.addEventListener('targetAchieved', function (e) {
+            playTone()
+            alarmReset()
+        });
+      });
+
+      $('#reset').click(function () {
+        timer.stop();
+      });
+
+    });
+
     </script>
 
 </body>
