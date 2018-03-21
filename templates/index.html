@@ -147,17 +147,15 @@
         }
 
         // Start new timer
-        console.log(timeleft)
-        console.log(typeof timeleft);
-        timer.start({countdown: true, startValues: {seconds: Number(timeleft)}});
+
+        timer.start({countdown: true, precision: 'seconds', startValues: {seconds: Number(timeleft)}});
 
         timer.addEventListener('secondsUpdated', function (e) {
             min = document.getElementById("ta").getElementsByClassName("minutes")[0];
-            console.log(timer.getTimeValues())
-            min.innerHTML = timer.getTimeValues().minutes;
+            min.innerHTML = zeroPad(timer.getTimeValues().minutes, 2);
 
             sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
-            sec.innerHTML = timer.getTimeValues().seconds;
+            sec.innerHTML = zeroPad(timer.getTimeValues().seconds, 2);
         });
 
         timer.addEventListener('targetAchieved', function (e) {
@@ -420,18 +418,21 @@
             var keypressed = event.keyCode || event.which;
             if (keypressed == 13) {
               pomotime = document.getElementById("pomodoro_time_set").value;
+              pomoTime()
             }
         });
       $('#short_time_set').keydown(function (event) {
             var keypressed = event.keyCode || event.which;
             if (keypressed == 13) {
               shorttime = document.getElementById("short_time_set").value;
+              shortTime()
             }
         });
       $('#long_time_set').keydown(function (event) {
             var keypressed = event.keyCode || event.which;
             if (keypressed == 13) {
               longtime = document.getElementById("long_time_set").value;
+              longTime()
             }
         });
 
