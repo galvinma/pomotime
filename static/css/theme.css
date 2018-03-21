@@ -27,7 +27,7 @@ input {
     resize: none;
 
     font-family: 'Roboto', sans-serif;
-    font-size: 72px;
+    font-size: 80px;
     max-width: 80%
 }
 .space {
@@ -79,7 +79,9 @@ input {
     display: none;
 }
 
-#start, #stop, #reset, #resume, #pomo, #short, #long, #duration, #tone, #volume {
+#start, #stop, #reset, #resume, #pomo, #short, #long, #duration, #tone, #volume,
+    #simple_tone_set, #metronome_tone_set, #beep_tone_set,
+    #vol0, #vol25, #vol50, #vol75, #vol100 {
     border-radius: 25px;
     outline: none;
     align-items: center;
@@ -99,7 +101,9 @@ input {
 .vert-space{
     height:150px;
 }
-
+.smallspacer{
+    height:5px;
+}
 .disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -127,7 +131,7 @@ input {
     text-decoration: none;
 }
 #cfg_duration {
-    height: 100px;
+    height: 150px;
 }
 
 #btc, #ether, #config, #cfg_duration {
@@ -140,7 +144,7 @@ input {
       resize: none;
 
       font-family: 'Roboto', sans-serif;
-      font-size: 60px;
+      font-size: 80px;
       max-width: 100%
   }
   .button-wrapper{

@@ -38,6 +38,7 @@
     function convertTime(duration) {
         var min = Math.floor(duration / 60);
         var sec = duration - min * 60;
+        console.log("input time (duration): " + duration + " min: " + min + " sec: " + sec)
         return [min,sec];
     };
     // pad results for display
@@ -45,14 +46,6 @@
       var zero = places - num.toString().length + 1;
       return Array(+(zero > 0 && zero)).join("0") + num;
     }
-    </script>
-
-
-    <script>
-    // Global time settings
-    var pomotime = 1500;
-    var longtime = 600;
-    var shorttime = 300;
     </script>
 
     <script type="text/javascript">
@@ -293,63 +286,7 @@
     </div>
     <br>
     <br>
-    <div class="button-group-spacer"></div>
 
-    <div id="config">
-      <div class="button-wrapper">
-        <input type="button" value="Duration" onclick="cfgDuration()" id="duration">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="button" value="Volume" onclick="cfgVolume()" id="volume">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="button" value="Tone" onclick="cfgTone()" id="tone">
-      </div>
-    </div>
-    <br>
-    <div id="cfg_duration">
-      <div class="duration-wrapper" id="duration-wrapper">
-        <input type="text" value="Pomodoro" id="pomodoro_time_set">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="text" value="Short" id="short_time_set">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="text" value="Long" id="long_time_set">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="button" value="Submit" onclick="cfgTone()" id="duration_submit">
-      </div>
-      <div class="tone-wrapper" id="tone-wrapper">
-        <input type="text" value="Simple" id="simple_tone_set">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="text" value="Metronome" id="metronome_tone_set">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="text" value="Gong" id="gong_tone_set">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="button" value="Submit" onclick="cfgTone()" id="tonesubmit">
-      </div>
-      <div class="volume-wrapper" id="volume-wrapper">
-        <input type="text" value="0" id="volume_set_0">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="text" value="25" id="volume_set_25">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="text" value="50" id="volume_set_50">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="text" value="75" id="volume_set_75">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="text" value="100" id="volume_set_100">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-      </div>
-    </div>
     <!-- <div id="options-wrapper" class="vert-space"></div> -->
     <br>
     <div class="footer">
@@ -367,14 +304,117 @@
 
     </div>
 
-    <script type ="text/javascript">
-    // 1.0 = 100%
+
+    <div class="button-group-spacer"></div>
+
+    <div id="config">
+      <div class="button-wrapper">
+        <input type="button" value="Duration" onclick="cfgDuration()" id="duration">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Volume" onclick="cfgVolume()" id="volume">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Tone" onclick="cfgTone()" id="tone">
+      </div>
+    </div>
+    <br>
+    <div id="cfg_duration">
+      <div class="duration-wrapper" id="duration-wrapper">
+        <input type="text" id="pomodoro_time_set">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="text" value="Short" id="short_time_set">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="text" value="Long" id="long_time_set">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+      </div>
+      <div class="tone-wrapper" id="tone-wrapper">
+        <input type="button" value="Simple" onclick="simpleTone()" id="simple_tone_set">
+        <div class="smallspacer"></div>
+        <input type="button" value="Metronome" onclick="metronomeTone()" id="metronome_tone_set">
+        <div class="smallspacer"></div>
+        <input type="button" value="Beep" onclick="beepTone()" id="beep_tone_set">
+      </div>
+      <div class="volume-wrapper" id="volume-wrapper">
+        <input type="button" value="0%" onclick="volume0()" id="vol0">
+        <div class="smallspacer"></div>
+        <input type="button" value="25%" onclick="volume25()" id="vol25">
+        <div class="smallspacer"></div>
+        <input type="button" value="50%" onclick="volume50()" id="vol50">
+        <div class="smallspacer"></div>
+        <input type="button" value="75%" onclick="volume75()" id="vol75">
+        <div class="smallspacer"></div>
+        <input type="button" value="100%" onclick="volume100()" id="vol100">
+      </div>
+    </div>
+
+    <script>
+    // Volume and Tones
     var volume = 1.0;
     var audio_selection = "simple";
     var simple = new Audio('static/audio/tone.mp3');
     var metronome = new Audio('static/audio/metronome.wav');
     var beep = new Audio('static/audio/beep.mp3');
 
+    // Global time settings
+    var pomotime = 1500;
+    var longtime = 600;
+    var shorttime = 300;
+
+    // Set Audio
+    function simpleTone() {
+        audio_selection = "simple";
+      }
+    function beepTone() {
+        audio_selection = "beep";
+      }
+    function metronomeTone() {
+        audio_selection = "metronome";
+      }
+
+    // Set Volume
+    function volume0() {
+        volume = 0.0;
+      }
+    function volume25() {
+        volume = 0.3;
+      }
+    function volume50() {
+        volume = 0.5;
+      }
+    function volume75() {
+        volume = 0.7;
+      }
+    function volume100() {
+        volume = 1.0;
+      }
+
+      $('#pomodoro_time_set').keydown(function (event) {
+            var keypressed = event.keyCode || event.which;
+            if (keypressed == 13) {
+              pomotime = document.getElementById("pomodoro_time_set").value;
+              console.log(pomotime)
+            }
+        });
+      $('#short_time_set').keydown(function (event) {
+            var keypressed = event.keyCode || event.which;
+            if (keypressed == 13) {
+              shorttime = document.getElementById("short_time_set").value;
+            }
+        });
+      $('#long_time_set').keydown(function (event) {
+            var keypressed = event.keyCode || event.which;
+            if (keypressed == 13) {
+              longtime = document.getElementById("long_time_set").value;
+            }
+        });
+    </script>
+
+
+    <script type ="text/javascript">
     function playTone() {
         if (audio_selection == "simple") {
           simple.volume = volume;
