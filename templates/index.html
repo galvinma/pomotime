@@ -27,18 +27,175 @@
 </head>
 
 <body>
-
     <title>pomoti.me</title>
-
-
     <div class="vert-space"></div>
+    <div class="time-container">
+      <div id="ta">
+        <span class="minutes" style="float: left"></span>
+        <span class="timespace" style="float: left">:</span>
+        <span class="seconds" style="float: left"></span>
+      </div>
+    </div>
+    <br>
+    <div id="selector" class="alarm">
+      <div class="button-wrapper">
+        <input type="button" value="Pomodoro" onclick="pomoTime()" id="pomo">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Short Break" onclick="shortTime()" id="short">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Long Break" onclick="longTime()" id="long">
+      </div>
+    </div>
+    <br>
+    <div class="button-group-spacer"></div>
+    <div class="alarm">
+      <div class="button-wrapper">
+        <input type="button" value="Start" onclick="alarmStart()" id="start">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Stop" onclick="alarmStop()" id="stop">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Resume" onclick="alarmResume()" id="resume">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Reset" onclick="alarmReset()" id="reset">
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="footer">
+        <p>
+        <button onclick="showOptions()" id="showoptions" class="options-button">Show Options</button>
+        <button onclick="hideOptions()" id="hideoptions" class="options-button">Hide Options</button>
+        </p>
+        <div id="contact">pomotime@protonmail.com</div>
+        <p>If you like pomoti.me, please consider <button onclick="showCrypto()" class="donate-button">donating</button>.</p>
+        <div id="ether">ether: 0x2Fd28424005a969Ac799953aF1e10E8A536DF8EE</div>
+        <div id="btc">btc: 1PUknv1RUpN1zmVQhFDnLrtmn8hSdU1VUB</div>
+    </div>
+    <div class="button-group-spacer"></div>
+    <div id="config">
+      <div class="button-wrapper">
+        <input type="button" value="Duration" onclick="cfgDuration()" id="duration">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Volume" onclick="cfgVolume()" id="volume">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="button" value="Tone" onclick="cfgTone()" id="tone">
+      </div>
+    </div>
+    <br>
+    <div id="cfg_duration">
+      <div class="duration-wrapper" id="duration-wrapper">
+        <input type="text" value="Pomodoro (seconds)" id="pomodoro_time_set">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="text" value="Short (seconds)" id="short_time_set">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+        <input type="text" value="Long (seconds)" id="long_time_set">
+        <div class="space"></div>
+        <div class="button-spacer"></div>
+      </div>
+      <div class="tone-wrapper" id="tone-wrapper">
+        <input type="button" value="Simple" onclick="simpleTone()" id="simple_tone_set">
+        <div class="smallspacer"></div>
+        <input type="button" value="Metronome" onclick="metronomeTone()" id="metronome_tone_set">
+        <div class="smallspacer"></div>
+        <input type="button" value="Beep" onclick="beepTone()" id="beep_tone_set">
+      </div>
+      <div class="volume-wrapper" id="volume-wrapper">
+        <input type="button" value="0%" onclick="volume0()" id="vol0">
+        <div class="smallspacer"></div>
+        <input type="button" value="25%" onclick="volume25()" id="vol25">
+        <div class="smallspacer"></div>
+        <input type="button" value="50%" onclick="volume50()" id="vol50">
+        <div class="smallspacer"></div>
+        <input type="button" value="75%" onclick="volume75()" id="vol75">
+        <div class="smallspacer"></div>
+        <input type="button" value="100%" onclick="volume100()" id="vol100">
+      </div>
+    </div>
 
     <script>
+    // If start begin countdown
+    $(document).ready(function(){
+      alarmReset()
+      pomoTime()
+      // Create new timer
+      var timer = new Timer();
+      $('#start').click(function () {
+
+        // Find active button
+        var active = document.querySelectorAll(".active");
+
+        if (active[0].id == "pomo") {
+            timeleft = pomotime;
+        }
+
+        if (active[0].id == "long") {
+            timeleft = longtime;
+        }
+
+        if (active[0].id == "short") {
+            timeleft = shorttime;
+        }
+
+        // Start new timer
+        console.log(timeleft)
+        console.log(typeof timeleft);
+        timer.start({countdown: true, startValues: {seconds: Number(timeleft)}});
+
+        timer.addEventListener('secondsUpdated', function (e) {
+            min = document.getElementById("ta").getElementsByClassName("minutes")[0];
+            console.log(timer.getTimeValues())
+            min.innerHTML = timer.getTimeValues().minutes;
+
+            sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
+            sec.innerHTML = timer.getTimeValues().seconds;
+        });
+
+        timer.addEventListener('targetAchieved', function (e) {
+            playTone()
+            alarmReset()
+        });
+      });
+
+      $('#stop').click(function () {
+        timer.pause();
+      });
+
+      $('#resume').click(function () {
+        timer.start();
+
+        timer.addEventListener('secondsUpdated', function (e) {
+            var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
+            min.innerHTML = zeroPad(timer.getTimeValues().minutes, 2);
+            var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
+            sec.innerHTML = zeroPad(timer.getTimeValues().seconds, 2);
+        });
+
+        timer.addEventListener('targetAchieved', function (e) {
+            playTone()
+            alarmReset()
+        });
+      });
+
+      $('#reset').click(function () {
+        timer.stop();
+      });
+
+    });
+
     // return an inputted time in min/sec
     function convertTime(duration) {
         var min = Math.floor(duration / 60);
         var sec = duration - min * 60;
-        console.log("input time (duration): " + duration + " min: " + min + " sec: " + sec)
         return [min,sec];
     };
     // pad results for display
@@ -46,9 +203,7 @@
       var zero = places - num.toString().length + 1;
       return Array(+(zero > 0 && zero)).join("0") + num;
     }
-    </script>
 
-    <script type="text/javascript">
     function alarmStart() {
       $('#start').addClass("disabled")
       $('#stop').removeClass("disabled")
@@ -57,26 +212,19 @@
       $('#short').addClass("disabled")
       $('#long').addClass("disabled")
       }
-    </script>
 
-    <script type="text/javascript">
     function alarmStop() {
       $('#reset').removeClass("disabled")
       $('#resume').removeClass("disabled")
       $('#stop').addClass("disabled")
     }
-    </script>
 
-
-    <script type="text/javascript">
     function alarmResume() {
       $('#resume').addClass("disabled")
       $('#reset').addClass("disabled")
       $('#stop').removeClass("disabled")
     }
-    </script>
 
-    <script type="text/javascript">
     function alarmReset() {
       $('#reset').addClass("disabled")
       $('#resume').addClass("disabled")
@@ -116,9 +264,7 @@
           $('#short').addClass("disabled")
       }
     }
-    </script>
 
-    <script type="text/javascript">
     function pomoTime() {
       $('#pomo').addClass("disabled")
       $('#short').removeClass("disabled")
@@ -134,9 +280,6 @@
       sec.innerHTML = zeroPad(convertTime(pomotime)[1], 2);
     }
 
-    </script>
-
-    <script type="text/javascript">
     function shortTime() {
       $('#short').addClass("disabled")
       $('#pomo').removeClass("disabled")
@@ -152,9 +295,7 @@
       sec.innerHTML = zeroPad(convertTime(shorttime)[1], 2);
 
     }
-    </script>
 
-    <script type="text/javascript">
     function longTime() {
       $('#long').addClass("disabled")
       $('#pomo').removeClass("disabled")
@@ -170,9 +311,7 @@
       sec.innerHTML = zeroPad(convertTime(longtime)[1], 2);
 
     }
-    </script>
 
-    <script type="text/javascript">
     function cfgDuration() {
       $('#duration').addClass("disabled")
       $('#volume').removeClass("disabled")
@@ -183,9 +322,7 @@
       $("#tone-wrapper").hide();
 
     }
-    </script>
 
-    <script type="text/javascript">
     function cfgVolume() {
       $('#duration').removeClass("disabled")
       $('#volume').addClass("disabled")
@@ -196,9 +333,7 @@
       $("#tone-wrapper").hide();
 
     }
-    </script>
 
-    <script type="text/javascript">
     function cfgTone() {
       $('#duration').removeClass("disabled")
       $('#volume').removeClass("disabled")
@@ -209,24 +344,12 @@
       $("#tone-wrapper").show();
 
     }
-    </script>
 
-
-    <script>
-     $(document).ready(function() {
-        alarmReset()
-        pomoTime()
-      });
-    </script>
-
-    <script>
     function showCrypto() {
         document.getElementById("ether").style.visibility = "visible";
         document.getElementById("btc").style.visibility = "visible";
     };
-    </script>
 
-    <script>
     function showOptions() {
         document.getElementById("config").style.visibility = "visible";
         document.getElementById("cfg_duration").style.visibility = "visible";
@@ -237,9 +360,7 @@
         cfgDuration()
 
     };
-    </script>
 
-    <script>
     function hideOptions() {
         document.getElementById("config").style.visibility = "hidden";
         document.getElementById("cfg_duration").style.visibility = "hidden";
@@ -247,112 +368,7 @@
         $("#hideoptions").hide();
 
     };
-    </script>
-
-    <div class="time-container">
-      <div id="ta">
-        <span class="minutes" style="float: left"></span>
-        <span class="timespace" style="float: left">:</span>
-        <span class="seconds" style="float: left"></span>
-      </div>
-    </div>
-    <br>
-    <div id="selector" class="alarm">
-      <div class="button-wrapper">
-        <input type="button" value="Pomodoro" onclick="pomoTime()" id="pomo">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="button" value="Short Break" onclick="shortTime()" id="short">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="button" value="Long Break" onclick="longTime()" id="long">
-      </div>
-    </div>
-    <br>
-    <div class="button-group-spacer"></div>
-    <div class="alarm">
-      <div class="button-wrapper">
-        <input type="button" value="Start" onclick="alarmStart()" id="start">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="button" value="Stop" onclick="alarmStop()" id="stop">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="button" value="Resume" onclick="alarmResume()" id="resume">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="button" value="Reset" onclick="alarmReset()" id="reset">
-      </div>
-    </div>
-    <br>
-    <br>
-
-    <!-- <div id="options-wrapper" class="vert-space"></div> -->
-    <br>
-    <div class="footer">
-        <p>
-        <button onclick="showOptions()" id="showoptions" class="options-button">Show Options</button>
-        <button onclick="hideOptions()" id="hideoptions" class="options-button">Hide Options</button>
-        </p>
-
-        <div id="contact">pomotime@protonmail.com</div>
-
-        <p>If you like pomoti.me, please consider <button onclick="showCrypto()" class="donate-button">donating</button>.</p>
-
-        <div id="ether">ether: 0x2Fd28424005a969Ac799953aF1e10E8A536DF8EE</div>
-        <div id="btc">btc: 1PUknv1RUpN1zmVQhFDnLrtmn8hSdU1VUB</div>
-
-    </div>
-
-
-    <div class="button-group-spacer"></div>
-
-    <div id="config">
-      <div class="button-wrapper">
-        <input type="button" value="Duration" onclick="cfgDuration()" id="duration">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="button" value="Volume" onclick="cfgVolume()" id="volume">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="button" value="Tone" onclick="cfgTone()" id="tone">
-      </div>
-    </div>
-    <br>
-    <div id="cfg_duration">
-      <div class="duration-wrapper" id="duration-wrapper">
-        <input type="text" id="pomodoro_time_set">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="text" value="Short" id="short_time_set">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-        <input type="text" value="Long" id="long_time_set">
-        <div class="space"></div>
-        <div class="button-spacer"></div>
-      </div>
-      <div class="tone-wrapper" id="tone-wrapper">
-        <input type="button" value="Simple" onclick="simpleTone()" id="simple_tone_set">
-        <div class="smallspacer"></div>
-        <input type="button" value="Metronome" onclick="metronomeTone()" id="metronome_tone_set">
-        <div class="smallspacer"></div>
-        <input type="button" value="Beep" onclick="beepTone()" id="beep_tone_set">
-      </div>
-      <div class="volume-wrapper" id="volume-wrapper">
-        <input type="button" value="0%" onclick="volume0()" id="vol0">
-        <div class="smallspacer"></div>
-        <input type="button" value="25%" onclick="volume25()" id="vol25">
-        <div class="smallspacer"></div>
-        <input type="button" value="50%" onclick="volume50()" id="vol50">
-        <div class="smallspacer"></div>
-        <input type="button" value="75%" onclick="volume75()" id="vol75">
-        <div class="smallspacer"></div>
-        <input type="button" value="100%" onclick="volume100()" id="vol100">
-      </div>
-    </div>
-
-    <script>
-    // Volume and Tones
+    // Global Volume and Tones
     var volume = 1.0;
     var audio_selection = "simple";
     var simple = new Audio('static/audio/tone.mp3');
@@ -367,36 +383,43 @@
     // Set Audio
     function simpleTone() {
         audio_selection = "simple";
+        playTone()
       }
     function beepTone() {
         audio_selection = "beep";
+        playTone()
       }
     function metronomeTone() {
         audio_selection = "metronome";
+        playTone()
       }
 
     // Set Volume
     function volume0() {
         volume = 0.0;
+        playTone()
       }
     function volume25() {
         volume = 0.3;
+        playTone()
       }
     function volume50() {
         volume = 0.5;
+        playTone()
       }
     function volume75() {
         volume = 0.7;
+        playTone()
       }
     function volume100() {
         volume = 1.0;
+        playTone()
       }
 
       $('#pomodoro_time_set').keydown(function (event) {
             var keypressed = event.keyCode || event.which;
             if (keypressed == 13) {
               pomotime = document.getElementById("pomodoro_time_set").value;
-              console.log(pomotime)
             }
         });
       $('#short_time_set').keydown(function (event) {
@@ -411,10 +434,7 @@
               longtime = document.getElementById("long_time_set").value;
             }
         });
-    </script>
 
-
-    <script type ="text/javascript">
     function playTone() {
         if (audio_selection == "simple") {
           simple.volume = volume;
@@ -432,72 +452,6 @@
           console.log("Playing beep sound.")
         }
     };
-    </script>
-
-    <script type="text/javascript">
-      // Create new timer
-      var timer = new Timer();
-
-      // If start begin countdown
-      $(document).ready(function(){
-        $('#start').click(function () {
-
-          // Find active button
-          var active = document.querySelectorAll(".active");
-
-          if (active[0].id == "pomo") {
-              timeleft = pomotime;
-          }
-
-          if (active[0].id == "long") {
-              timeleft = longtime;
-          }
-
-          if (active[0].id == "short") {
-              timeleft = shorttime;
-          }
-
-          // Start new timer
-          timer.start({countdown: true, startValues: {seconds: timeleft}});
-
-          timer.addEventListener('secondsUpdated', function (e) {
-              var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
-              min.innerHTML = zeroPad(timer.getTimeValues().minutes, 2);
-              var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
-              sec.innerHTML = zeroPad(timer.getTimeValues().seconds, 2);
-          });
-
-          timer.addEventListener('targetAchieved', function (e) {
-              playTone()
-              alarmReset()
-          });
-        });
-
-        $('#stop').click(function () {
-          timer.pause();
-        });
-
-        $('#resume').click(function () {
-          timer.start();
-
-          timer.addEventListener('secondsUpdated', function (e) {
-              var min = document.getElementById("ta").getElementsByClassName("minutes")[0];
-              min.innerHTML = zeroPad(timer.getTimeValues().minutes, 2);
-              var sec = document.getElementById("ta").getElementsByClassName("seconds")[0];
-              sec.innerHTML = zeroPad(timer.getTimeValues().seconds, 2);
-          });
-
-          timer.addEventListener('targetAchieved', function (e) {
-              playTone()
-              alarmReset()
-          });
-        });
-
-        $('#reset').click(function () {
-          timer.stop();
-        });
-
-    });
     </script>
 
 </body>
