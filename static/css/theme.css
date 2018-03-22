@@ -75,20 +75,20 @@ input {
   justify-content: center;
 }
 
+
 #hideoptions {
     display: none;
 }
 
 #pomodoro_time_set, #short_time_set, #long_time_set {
-    border-radius: 25px;
+    border-radius: 4px;
     outline: none;
     display: block;
-    border: 2px solid #000000;
-    color: Black;
+    border: 1px solid #ccc;
     font-size: 14px;
     font-weight: normal;
     align-items: center;
-    text-align: center;
+    text-align: left;
     text-decoration: none;
     width: 150px;
 }
