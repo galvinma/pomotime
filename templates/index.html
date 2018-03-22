@@ -99,8 +99,7 @@
         <div class="smallspacer"></div>
         <input type="text" placeholder="Long..." id="long_time_set">
         <div class="smallspacer"></div>
-        <div id="invalidentry">Invalid entry. Please try again.</div>
-        <div>
+        <div id="invalidentry">Invalid entry. Please enter a number between 60 and 6000.</div>
       </div>
       <div class="tone-wrapper" id="tone-wrapper">
         <input type="button" value="Simple" onclick="simpleTone()" id="simple_tone_set">
@@ -396,73 +395,102 @@
             var keypressed = event.keyCode || event.which;
             if (keypressed == 13) {
               if (isNaN(document.getElementById("pomodoro_time_set").value) == false) {
-                  $("#invalidentry").hide();
-                  pomotime = document.getElementById("pomodoro_time_set").value;
-                  pomoTime()
+                if (Number(document.getElementById("pomodoro_time_set").value) >= 60 && Number(document.getElementById("pomodoro_time_set").value) <= 6000) {
+                    $("#invalidentry").hide();
+                    pomotime = Math.round(document.getElementById("pomodoro_time_set").value);
+                    pomoTime()
+                } else {
+                    invalidEntry()
+                  return
+                }
               } else {
                   invalidEntry()
               }
           }
         });
+        $('#long_time_set').keydown(function (event) {
+              var keypressed = event.keyCode || event.which;
+              if (keypressed == 13) {
+                if (isNaN(document.getElementById("long_time_set").value) == false) {
+                  if (Number(document.getElementById("long_time_set").value) >= 60 && Number(document.getElementById("long_time_set").value) <= 6000) {
+                      $("#invalidentry").hide();
+                      longtime = Math.round(document.getElementById("long_time_set").value);
+                      longTime()
+                  } else {
+                      invalidEntry()
+                    return
+                  }
+                } else {
+                    invalidEntry()
+                }
+            }
+          });
+          $('#short_time_set').keydown(function (event) {
+                var keypressed = event.keyCode || event.which;
+                if (keypressed == 13) {
+                  if (isNaN(document.getElementById("short_time_set").value) == false) {
+                    if (Number(document.getElementById("short_time_set").value) >= 60 && Number(document.getElementById("short_time_set").value) <= 6000) {
+                        $("#invalidentry").hide();
+                        shorttime = Math.round(document.getElementById("short_time_set").value);
+                        shortTime()
+                    } else {
+                        invalidEntry()
+                      return
+                    }
+                  } else {
+                      invalidEntry()
+                  }
+              }
+            });
+
       // Focus lost
       document.getElementById("pomodoro_time_set").addEventListener("change", pomoupdate);
       function pomoupdate() {
-              if (isNaN(document.getElementById("pomodoro_time_set").value) == false) {
-                  $("#invalidentry").hide();
-                  pomotime = document.getElementById("pomodoro_time_set").value;
-                  pomoTime()
-              } else {
-                  invalidEntry()
-              }
-            }
-      $('#short_time_set').keydown(function (event) {
-            var keypressed = event.keyCode || event.which;
-            if (keypressed == 13) {
-              if (isNaN(document.getElementById("short_time_set").value) == false) {
-                  $("#invalidentry").hide();
-                  shorttime = document.getElementById("short_time_set").value;
-                  shortTime()
-              } else {
-                  invalidEntry()
-              }
+        if (isNaN(document.getElementById("pomodoro_time_set").value) == false) {
+          if (Number(document.getElementById("pomodoro_time_set").value) >= 60 && Number(document.getElementById("pomodoro_time_set").value) <= 6000) {
+              $("#invalidentry").hide();
+              pomotime = Math.round(document.getElementById("pomodoro_time_set").value);
+              pomoTime()
+          } else {
+              invalidEntry()
+            return
           }
-        });
-      // Focus lost
+        } else {
+            invalidEntry()
+        }
+      }
       document.getElementById("short_time_set").addEventListener("change", shortupdate);
       function shortupdate() {
-              if (isNaN(document.getElementById("short_time_set").value) == false) {
-                  $("#invalidentry").hide();
-                  shorttime = document.getElementById("short_time_set").value;
-                  shortTime()
-              } else {
-                  invalidEntry()
-              }
-            }
-
-      $('#long_time_set').keydown(function (event) {
-            var keypressed = event.keyCode || event.which;
-            if (keypressed == 13) {
-              if (isNaN(document.getElementById("long_time_set").value) == false) {
-                  $("#invalidentry").hide();
-                  longtime = document.getElementById("long_time_set").value;
-                  longTime()
-              } else {
-                  invalidEntry()
-              }
+        if (isNaN(document.getElementById("short_time_set").value) == false) {
+          if (Number(document.getElementById("short_time_set").value) >= 60 && Number(document.getElementById("short_time_set").value) <= 6000) {
+              $("#invalidentry").hide();
+              shorttime = Math.round(document.getElementById("short_time_set").value);
+              shortTime()
+          } else {
+              invalidEntry()
+            return
           }
-        });
-      // Focus lost
+        } else {
+            invalidEntry()
+        }
+      }
       document.getElementById("long_time_set").addEventListener("change", longupdate);
       function longupdate() {
-              if (isNaN(document.getElementById("long_time_set").value) == false) {
-                  $("#invalidentry").hide();
-                  longtime = document.getElementById("long_time_set").value;
-                  longTime()
-              } else {
-                  invalidEntry()
-              }
-            }
+        if (isNaN(document.getElementById("long_time_set").value) == false) {
+          if (Number(document.getElementById("long_time_set").value) >= 60 && Number(document.getElementById("long_time_set").value) <= 6000) {
+              $("#invalidentry").hide();
+              longtime = Math.round(document.getElementById("long_time_set").value);
+              longTime()
+          } else {
+              invalidEntry()
+            return
+          }
+        } else {
+            invalidEntry()
+        }
+      }
 
+    // Play audio
     function playTone() {
         if (audio_selection == "simple") {
           simple.load();
