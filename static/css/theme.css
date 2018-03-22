@@ -90,8 +90,13 @@ input {
     align-items: center;
     text-align: left;
     text-decoration: none;
-    width: 150px;
+    width: 100px;
 }
+/* #pomodoro_time_set::placeholder, #short_time_set::placeholder,  #long_time_set::placeholder  {
+    color: black;
+    opacity: 1;
+    text-align: left;
+} */
 
 #start, #stop, #reset, #resume, #pomo, #short, #long, #duration, #tone, #volume,
     #simple_tone_set, #metronome_tone_set, #beep_tone_set,
@@ -118,6 +123,19 @@ input {
 .smallspacer{
     height:5px;
 }
+.timewrap{
+    vertical-align: center;
+    text-align: center;
+}
+.timewrap label {
+    float: left;
+}
+.timewrap span {
+    display: block;
+    overflow: hidden;
+    padding: 0 4px 0 6px
+}
+
 .disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -179,7 +197,9 @@ input {
     height: 5px;
     display: visible;
   }
-  #start, #stop, #reset, #resume, #pomo, #short, #long, #duration, #tone, #volume {
+  #start, #stop, #reset, #resume, #pomo, #short, #long, #duration, #tone, #volume,
+  #simple_tone_set, #metronome_tone_set, #beep_tone_set,
+  #vol0, #vol25, #vol50, #vol75, #vol100 {
       font-size: 18px;
   }
 
