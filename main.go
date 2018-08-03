@@ -24,7 +24,7 @@ func main() {
 	r.HandleFunc("/", pageHandler)
 
 	// Listen
-	l, err := net.Listen("tcp", "127.0.0.1:5000")
+	l, err := net.Listen("tcp", "127.0.0.1:5001")
 	if err != nil {
 		log.Println(err)
 	}
@@ -39,7 +39,7 @@ func main() {
         return
     }
 		for {
-	    _, err := http.Get("http://127.0.0.1:5000")
+	    _, err := http.Get("http://127.0.0.1:5001")
 	    if err == nil {
 	        daemon.SdNotify(false, "WATCHDOG=1")
 	    }
