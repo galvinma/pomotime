@@ -1,0 +1,38 @@
+{
+  "name": "pomoti.me",
+  "version": "1.0.0",
+  "description": "Pomodoro Timer",
+  "main": "index.js",
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "^2.1.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "react-scripts test --env=jsdom",
+    "build": "react-scripts build",
+    "start": "react-scripts start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/galvinma/pomoti.me.git"
+  },
+  "keywords": [
+    "Pomodoro",
+    "Timer"
+  ],
+  "author": "Matthew Galvin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/galvinma/pomoti.me/issues"
+  },
+  "homepage": "https://github.com/galvinma/pomoti.me#readme",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

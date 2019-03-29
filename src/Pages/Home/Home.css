@@ -1,0 +1,13 @@
+.content-container
+{
+  display: flex;
+  flex-direction: column;
+}
+
+.time-container, .controls-container, .options-container
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+}
