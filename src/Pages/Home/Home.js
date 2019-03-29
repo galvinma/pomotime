@@ -39,6 +39,12 @@ class Home extends React.Component {
       this.changeAudio = this.changeAudio.bind(this)
       this.changeVolume = this.changeVolume.bind(this)
       this.playTone = this.playTone.bind(this)
+      this.disableButtons = this.disableButtons.bind(this)
+  }
+
+  componentDidMount()
+  {
+    this.disableButtons(["START", "POMODORO", "SHORT", "LONG"], ["STOP", "RESUME", "RESET"])
   }
 
   changeAudio(event)
@@ -106,6 +112,7 @@ class Home extends React.Component {
   {
     if (this.state.duration-1 <= 0)
     {
+      this.playTone()
       this.resetTimer()
     }
     else
@@ -121,6 +128,28 @@ class Home extends React.Component {
         seconds: seconds,
         duration: current
       })
+    }
+  }
+
+  disableButtons(active, disabled)
+  {
+    for (var i=0; i<active.length; i++)
+    {
+      console.log(active[i])
+      const el = document.getElementById(`${active[i]}`)
+      if (typeof(el) != 'undefined' && el != null)
+      {
+        el.classList.remove("disabled");
+      }
+    }
+
+    for (var j=0; j<disabled.length; j++)
+    {
+      const el = document.getElementById(`${disabled[j]}`)
+      if (typeof(el) != 'undefined' && el != null)
+      {
+        el.classList.add("disabled");
+      }
     }
   }
 
@@ -152,7 +181,6 @@ class Home extends React.Component {
   resetTimer()
   {
     clearInterval(this.state.intervalID)
-    this.playTone()
 
     const mode = this.state.mode
     const duration = this.setDuration(mode)
@@ -167,6 +195,8 @@ class Home extends React.Component {
       minutes: minutes,
       seconds: seconds,
     })
+
+    this.disableButtons(["START", "POMODORO", "SHORT", "LONG"], ["STOP", "RESUME", "RESET"])
   }
 
   resumeTimer()
@@ -175,6 +205,8 @@ class Home extends React.Component {
     this.setState({
       intervalID: timer
     })
+
+    this.disableButtons(["STOP"], ["START", "RESUME", "RESET", "POMODORO", "SHORT", "LONG"])
   }
 
   setDuration(mode)
@@ -199,6 +231,8 @@ class Home extends React.Component {
     this.setState({
       intervalID: timer
     })
+
+    this.disableButtons(["STOP"], ["START", "RESUME", "RESET", "POMODORO", "SHORT", "LONG"])
   }
 
   stopTimer()
@@ -208,6 +242,8 @@ class Home extends React.Component {
     this.setState({
       pause: this.state.duration
     })
+
+    this.disableButtons(["RESUME", "RESET"], ["START", "STOP", "POMODORO", "SHORT", "LONG"])
   }
 
   timeLeft(timeLeft)
@@ -246,15 +282,15 @@ class Home extends React.Component {
             <div className="seconds">{this.state.seconds}</div>
           </div>
           <div className="controls-container">
-            <button className="control-button" value="POMODORO" onClick={this.changeMode}>Pomodoro</button>
-            <button className="control-button" value="SHORT" onClick={this.changeMode}>Short Break</button>
-            <button className="control-button" value="LONG" onClick={this.changeMode}>Long Break</button>
+            <button id="POMODORO" className="control-button" value="POMODORO" onClick={this.changeMode}>Pomodoro</button>
+            <button id="SHORT" className="control-button" value="SHORT" onClick={this.changeMode}>Short Break</button>
+            <button id="LONG" className="control-button" value="LONG" onClick={this.changeMode}>Long Break</button>
           </div>
           <div className="controls-container">
-            <button className="control-button" value="START" onClick={this.startTimer}>Start</button>
-            <button className="control-button" value="STOP" onClick={this.stopTimer}>Stop</button>
-            <button className="control-button" value="RESUME" onClick={this.resumeTimer}>Resume</button>
-            <button className="control-button" value="RESET" onClick={this.resetTimer}>Reset</button>
+            <button id="START" className="control-button" value="START" onClick={this.startTimer}>Start</button>
+            <button id="STOP" className="control-button" value="STOP" onClick={this.stopTimer}>Stop</button>
+            <button id="RESUME" className="control-button" value="RESUME" onClick={this.resumeTimer}>Resume</button>
+            <button id="RESET" className="control-button" value="RESET" onClick={this.resetTimer}>Reset</button>
           </div>
           <div className="options-container">
             <div className="volume-container">
