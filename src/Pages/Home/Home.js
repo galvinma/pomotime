@@ -37,7 +37,6 @@ class Home extends React.Component {
       this.zeroPad = this.zeroPad.bind(this)
       this.setDuration = this.setDuration.bind(this)
       this.changeAudio = this.changeAudio.bind(this)
-      this.changeDuration = this.changeDuration.bind(this)
       this.changeVolume = this.changeVolume.bind(this)
       this.playTone = this.playTone.bind(this)
   }
@@ -49,11 +48,6 @@ class Home extends React.Component {
     }, () => {
         this.playTone()
     })
-  }
-
-  changeDuration()
-  {
-
   }
 
   changeMode(event)
@@ -73,9 +67,34 @@ class Home extends React.Component {
     })
   }
 
-  changeVolume()
+  changeVolume(event)
   {
+    let val = event.target.value
+    let update
+    if (val === "0")
+    {
+      update = 0.0
+    }
+    else if (val === "30")
+    {
+      update = 0.3
+    }
+    else if (val === "50")
+    {
+      update = 0.5
+    }
+    else if (val === "70")
+    {
+      update = 0.7
+    }
+    else if (val === "100")
+    {
+      update = 1.0
+    }
 
+    this.setState({
+      volume: update
+    })
   }
 
   clearInterval()
@@ -110,6 +129,7 @@ class Home extends React.Component {
     if (this.state.audioSelection === "CHIME") {
       const chime = document.getElementById("chime");
       chime.load()
+      chime.volume = this.state.volume
       chime.play();
     }
 
@@ -117,12 +137,14 @@ class Home extends React.Component {
     {
       const metronome = document.getElementById("metronome");
       metronome.load()
+      metronome.volume = this.state.volume
       metronome.play();
     }
 
     if (this.state.audioSelection === "BEEP") {
       const beep = document.getElementById("beep");
       beep.load()
+      beep.volume = this.state.volume
       beep.play();
     }
   }
@@ -186,8 +208,6 @@ class Home extends React.Component {
     this.setState({
       pause: this.state.duration
     })
-
-    console.log('pausing')
   }
 
   timeLeft(timeLeft)
@@ -237,15 +257,13 @@ class Home extends React.Component {
             <button className="control-button" value="RESET" onClick={this.resetTimer}>Reset</button>
           </div>
           <div className="options-container">
-            <div className="duration-container">
-              <div className="options-header">Duration</div>
-              <input className="duration-input" />
-            </div>
             <div className="volume-container">
               <div className="options-header">Volume</div>
-              <button className="control-button">30%</button>
-              <button className="control-button">50%</button>
-              <button className="control-button">70%</button>
+              <button className="control-button" value="0" onClick={this.changeVolume}>0%</button>
+              <button className="control-button" value="30" onClick={this.changeVolume}>30%</button>
+              <button className="control-button" value="50" onClick={this.changeVolume}>50%</button>
+              <button className="control-button" value="70" onClick={this.changeVolume}>70%</button>
+              <button className="control-button" value="100" onClick={this.changeVolume}>100%</button>
             </div>
             <div className="tone-container">
               <div className="options-header">Tone</div>
