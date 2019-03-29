@@ -3,25 +3,79 @@ import React from 'react'
 // CSS
 import './Home.css'
 
+// Audio
+import chime from '../.././Audio/tone.mp3'
+import metronome from '../.././Audio/metronome.wav'
+import beep from '../.././Audio/beep.mp3'
+
 class Home extends React.Component {
   constructor(props)
   {
-    super(props);
+    super(props)
 
     this.state = {
-      seconds: 0,
-      minutes: 25,
+      seconds: "00",
+      minutes: "25",
       duration: 1500,
+      pause: 0,
       mode: 'POMODORO',
       intervalID: "",
+      pomoTime: 1500,
+      longTime: 600,
+      shortTime: 300,
+      audioSelection: "CHIME",
+      volume: 1.0,
     }
       this.clearInterval = this.clearInterval.bind(this)
       this.decrementTimer = this.decrementTimer.bind(this)
-      this.pauseTimer = this.pauseTimer.bind(this)
       this.resetTimer = this.resetTimer.bind(this)
       this.resumeTimer = this.resumeTimer.bind(this)
       this.startTimer = this.startTimer.bind(this)
       this.stopTimer = this.stopTimer.bind(this)
+      this.changeMode = this.changeMode.bind(this)
+      this.timeLeft = this.timeLeft.bind(this)
+      this.zeroPad = this.zeroPad.bind(this)
+      this.setDuration = this.setDuration.bind(this)
+      this.changeAudio = this.changeAudio.bind(this)
+      this.changeDuration = this.changeDuration.bind(this)
+      this.changeVolume = this.changeVolume.bind(this)
+      this.playTone = this.playTone.bind(this)
+  }
+
+  changeAudio(event)
+  {
+    this.setState({
+      audioSelection: event.target.value
+    }, () => {
+        this.playTone()
+    })
+  }
+
+  changeDuration()
+  {
+
+  }
+
+  changeMode(event)
+  {
+    const mode = event.target.value
+    const duration = this.setDuration(mode)
+    const conversion = this.timeLeft(duration)
+    const pad = this.zeroPad(conversion[0], conversion[1])
+    const minutes = pad[0]
+    const seconds = pad[1]
+
+    this.setState({
+      mode: mode,
+      duration: duration,
+      minutes: minutes,
+      seconds: seconds,
+    })
+  }
+
+  changeVolume()
+  {
+
   }
 
   clearInterval()
@@ -31,40 +85,90 @@ class Home extends React.Component {
 
   decrementTimer()
   {
-    let timeLeft = this.state.duration-1
-    var minutes = Math.floor(timeLeft/60)
-    var seconds = timeLeft - (minutes * 60)
-
-    if (seconds < 10)
+    if (this.state.duration-1 <= 0)
     {
-      seconds = "0" + seconds
+      this.resetTimer()
     }
-
-    if (minutes < 10)
+    else
     {
-      minutes = "0" + minutes
-    }
+      const current = this.state.duration-1
+      const conversion = this.timeLeft(current)
+      const pad = this.zeroPad(conversion[0], conversion[1])
+      const minutes = pad[0]
+      const seconds = pad[1]
 
-    this.setState({
-      minutes: minutes,
-      seconds: seconds,
-      duration: timeLeft
-    })
+      this.setState({
+        minutes: minutes,
+        seconds: seconds,
+        duration: current
+      })
+    }
   }
 
-  pauseTimer()
+  playTone(event)
   {
+    if (this.state.audioSelection === "CHIME") {
+      const chime = document.getElementById("chime");
+      chime.load()
+      chime.play();
+    }
 
+    if (this.state.audioSelection === "METRONOME")
+    {
+      const metronome = document.getElementById("metronome");
+      metronome.load()
+      metronome.play();
+    }
+
+    if (this.state.audioSelection === "BEEP") {
+      const beep = document.getElementById("beep");
+      beep.load()
+      beep.play();
+    }
   }
 
   resetTimer()
   {
+    clearInterval(this.state.intervalID)
+    this.playTone()
 
+    const mode = this.state.mode
+    const duration = this.setDuration(mode)
+    const conversion = this.timeLeft(duration)
+    const pad = this.zeroPad(conversion[0], conversion[1])
+    const minutes = pad[0]
+    const seconds = pad[1]
+
+    this.setState({
+      mode: mode,
+      duration: duration,
+      minutes: minutes,
+      seconds: seconds,
+    })
   }
 
   resumeTimer()
   {
+    let timer = setInterval(this.decrementTimer, this.state.pause);
+    this.setState({
+      intervalID: timer
+    })
+  }
 
+  setDuration(mode)
+  {
+    if (mode === "POMODORO")
+    {
+      return this.state.pomoTime
+    }
+    else if (mode === "SHORT")
+    {
+      return this.state.shortTime
+    }
+    else if (mode === "LONG")
+    {
+      return this.state.longTime
+    }
   }
 
   startTimer()
@@ -77,12 +181,44 @@ class Home extends React.Component {
 
   stopTimer()
   {
+    this.clearInterval(this.state.intervalID)
 
+    this.setState({
+      pause: this.state.duration
+    })
+
+    console.log('pausing')
+  }
+
+  timeLeft(timeLeft)
+  {
+    var minutes = Math.floor(timeLeft/60)
+    var seconds = timeLeft - (minutes * 60)
+
+    return [minutes, seconds]
+  }
+
+  zeroPad(minutes, seconds)
+  {
+    if (seconds < 10)
+    {
+      seconds = "0" + seconds
+    }
+
+    if (minutes < 10)
+    {
+      minutes = "0" + minutes
+    }
+
+    return [minutes, seconds]
   }
 
   render() {
     return (
       <div>
+        <audio id="chime" src={chime}/>
+        <audio id="metronome" src={metronome}/>
+        <audio id="beep" src={beep}/>
         <div className="content-container">
           <div id="time" className="time-container">
             <div className="minutes">{this.state.minutes}</div>
@@ -90,21 +226,35 @@ class Home extends React.Component {
             <div className="seconds">{this.state.seconds}</div>
           </div>
           <div className="controls-container">
-            <button className="control-button">Pomodoro</button>
-            <button className="control-button">Short Break</button>
-            <button className="control-button">Long Break</button>
+            <button className="control-button" value="POMODORO" onClick={this.changeMode}>Pomodoro</button>
+            <button className="control-button" value="SHORT" onClick={this.changeMode}>Short Break</button>
+            <button className="control-button" value="LONG" onClick={this.changeMode}>Long Break</button>
           </div>
           <div className="controls-container">
-            <button className="control-button" onClick={this.startTimer}>Start</button>
-            <button className="control-button">Stop</button>
-            <button className="control-button">Resume</button>
-            <button className="control-button">Reset</button>
+            <button className="control-button" value="START" onClick={this.startTimer}>Start</button>
+            <button className="control-button" value="STOP" onClick={this.stopTimer}>Stop</button>
+            <button className="control-button" value="RESUME" onClick={this.resumeTimer}>Resume</button>
+            <button className="control-button" value="RESET" onClick={this.resetTimer}>Reset</button>
           </div>
           <div className="options-container">
-            <button className="control-button">Duration</button>
-            <button className="control-button">Volume</button>
-            <button className="control-button">Tone</button>
+            <div className="duration-container">
+              <div className="options-header">Duration</div>
+              <input className="duration-input" />
+            </div>
+            <div className="volume-container">
+              <div className="options-header">Volume</div>
+              <button className="control-button">30%</button>
+              <button className="control-button">50%</button>
+              <button className="control-button">70%</button>
+            </div>
+            <div className="tone-container">
+              <div className="options-header">Tone</div>
+              <button className="control-button" value="CHIME" onClick={this.changeAudio}>Chime</button>
+              <button className="control-button" value="METRONOME" onClick={this.changeAudio}>Metronome</button>
+              <button className="control-button" value="BEEP" onClick={this.changeAudio}>Beep</button>
+            </div>
           </div>
+          <div className="message"></div>
         </div>
       </div>
   )}
