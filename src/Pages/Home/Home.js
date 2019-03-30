@@ -281,7 +281,7 @@ class Home extends React.Component {
             <div className="spacer">:</div>
             <div className="seconds">{this.state.seconds}</div>
           </div>
-          <div className="controls-container">
+          <div className="selection-container">
             <button id="POMODORO" className="control-button" value="POMODORO" onClick={this.changeMode}>Pomodoro</button>
             <button id="SHORT" className="control-button" value="SHORT" onClick={this.changeMode}>Short Break</button>
             <button id="LONG" className="control-button" value="LONG" onClick={this.changeMode}>Long Break</button>
@@ -293,19 +293,23 @@ class Home extends React.Component {
             <button id="RESET" className="control-button" value="RESET" onClick={this.resetTimer}>Reset</button>
           </div>
           <div className="options-container">
-            <div className="volume-container">
-              <div className="options-header">Volume</div>
-              <button className="control-button" value="0" onClick={this.changeVolume}>0%</button>
-              <button className="control-button" value="30" onClick={this.changeVolume}>30%</button>
-              <button className="control-button" value="50" onClick={this.changeVolume}>50%</button>
-              <button className="control-button" value="70" onClick={this.changeVolume}>70%</button>
-              <button className="control-button" value="100" onClick={this.changeVolume}>100%</button>
-            </div>
             <div className="tone-container">
-              <div className="options-header">Tone</div>
-              <button className="control-button" value="CHIME" onClick={this.changeAudio}>Chime</button>
-              <button className="control-button" value="METRONOME" onClick={this.changeAudio}>Metronome</button>
-              <button className="control-button" value="BEEP" onClick={this.changeAudio}>Beep</button>
+              <div className="options-header">Tone Selection</div>
+              <div className="tone-buttons">
+                <button className="control-button" value="CHIME" onClick={this.changeAudio}>Chime</button>
+                <button className="control-button" value="METRONOME" onClick={this.changeAudio}>Metronome</button>
+                <button className="control-button" value="BEEP" onClick={this.changeAudio}>Beep</button>
+              </div>
+            </div>
+            <div className="volume-container">
+              <div className="options-header">Volume Control</div>
+              <div className="volume-buttons">
+                <button className="control-button" value="0" onClick={this.changeVolume}>0%</button>
+                <button className="control-button" value="30" onClick={this.changeVolume}>30%</button>
+                <button className="control-button" value="50" onClick={this.changeVolume}>50%</button>
+                <button className="control-button" value="70" onClick={this.changeVolume}>70%</button>
+                <button className="control-button" value="100" onClick={this.changeVolume}>100%</button>
+              </div>
             </div>
           </div>
           <div className="message"></div>
