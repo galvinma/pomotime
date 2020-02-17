@@ -135,7 +135,6 @@ class Home extends React.Component {
   {
     for (var i=0; i<active.length; i++)
     {
-      console.log(active[i])
       const el = document.getElementById(`${active[i]}`)
       if (typeof(el) != 'undefined' && el != null)
       {
