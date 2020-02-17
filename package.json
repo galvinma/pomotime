@@ -29,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/galvinma/pomoti.me/issues"
   },
-  "homepage": "https://github.com/galvinma/pomoti.me#readme",
+  "homepage": "./",
   "browserslist": [
     ">0.2%",
     "not dead",
